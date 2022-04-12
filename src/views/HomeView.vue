@@ -1,7 +1,9 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    {{ text }}
+    <br/>
+    {{ arr }}
+    <MyName msg="Hello" :text="text" :arr="arr"/>
   </div>
 </template>
 
@@ -12,7 +14,16 @@ import HelloWorld from '@/components/HelloWorld.vue'
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    MyName: HelloWorld
+  },
+  data () {
+    return {
+      text: 'some text',
+      arr: ['1', '2', '3', '4', '5']
+    }
   }
 }
 </script>
+
+<style>
+</style>

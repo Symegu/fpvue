@@ -1,34 +1,19 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <h1>{{ msg }} - {{ msg.length }}</h1>
+    <hr/>
+    <input v-model.trim="textValue" @focus="onFocus" type="text">
+    <input :value="textValue2" @input="textValue2 = $event.target.value">
+    <button v-on:click="result = 1 + 9"> Click </button>
+    <button @click="result = 1 + 4"> Click 2 </button>
+    <hr>
+    <input v-model.number.lazy="operand1" >
+    <input v-model.number.lazy="operand2" >
+    = {{ result }}
+    <button @click="sum">+</button>
+    <button @click="result = operand1 - operand2">-</button>
+    <button @click="sub">:</button>
+    <button @click="multiply">*</button>
   </div>
 </template>
 
@@ -37,6 +22,36 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  text: {
+    type: String
+  },
+  data () {
+    return {
+      result: 0,
+      operand1: 0,
+      operand2: 0,
+      textValue: '',
+      textValue2: ''
+    }
+  },
+  methods: {
+    onBlur () {
+      console.log(this.textValue)
+    },
+    onFocus () {
+      console.log('focus')
+    },
+    sum () {
+      this.result = this.operand1 + this.operand2
+    },
+    sub () {
+      const { operand1, operand2 } = this
+      this.result = operand1 / operand2
+    },
+    multiply () {
+      this.result = this.operand1 * this.operand2
+    }
   }
 }
 </script>
