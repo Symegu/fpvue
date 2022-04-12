@@ -12,8 +12,9 @@
     = {{ result }}
     <button @click="sum">+</button>
     <button @click="result = operand1 - operand2">-</button>
-    <button @click="sub">:</button>
+    <button @click="sub" :disabled="!this.operand2">:</button>
     <button @click="multiply">*</button>
+    <button @click="result = Math.pow(operand1, operand2)">**</button>
   </div>
 </template>
 
