@@ -82,6 +82,7 @@ export default {
       operands: ['+', '-', '*', '/'],
       logs: {},
       checked: false,
+      nums: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       picked: ''
     }
   },
@@ -132,7 +133,7 @@ export default {
       console.log('focus')
     },
     sum () {
-      this.result = this.operand1 + this.operand2
+      this.result = (+this.operand1) + (+this.operand2)
       this.resultFib = this.fib1 + this.fib2
     },
     subtract () {
@@ -167,7 +168,7 @@ export default {
     },
     clear () {
       if (!isNaN(this.operand1[this.operand1.length - 1])) this.operand1 = this.operand1.substring(0, this.operand1.length - 1)
-      if (!isNaN(this.operand2[this.operand1.length - 1])) this.operand2 = this.operand2.substring(0, this.operand2.length - 1)
+      if (!isNaN(this.operand2[this.operand2.length - 1])) this.operand2 = this.operand2.substring(0, this.operand2.length - 1)
     }
   }
 }
