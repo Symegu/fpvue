@@ -2,8 +2,8 @@
   <div class="hello">
     {{ hz }}
     <br>
-    <input v-model.number.lazy="operand1" >
-    <input v-model.number.lazy="operand2" >
+    <input v-model.number="operand1" >
+    <input v-model.number="operand2" >
     = {{ result }}
     <br>
     = {{ resultFib }}
@@ -30,6 +30,23 @@
         </button>
         <button @click="result = Math.pow(operand1, operand2)">**</button>
     </div>
+    <input type="checkbox" id="checkbox" value="Клавиатура" v-model="checked">
+    <label for="checkbox">Открыть экранную клавиатуру</label>
+    <br>
+    <div class="keyboardNums" v-if="checked" >
+      <button
+        v-for="btn in 10"
+        :key="btn"
+        @click="inputNum(btn - 1)">
+        {{ btn - 1 }}
+      </button>
+      <button @click="clear()"> -- </button>
+      <br>
+      <input type="radio" id="operand1" name="radio" value="operand1" v-model="picked">
+      <label for="operand1">Первое число</label>
+      <input type="radio" id="operand2" name="radio" value="operand2" v-model="picked">
+      <label for="operand2">Второе число</label>
+    </div>
     <hr>
     <br>
     <div class="item" v-for="(item, index) in myCollection" :key="index">
@@ -38,7 +55,7 @@
     <div class="logs">
       <div class="log" v-for="(item, index) in logs" :key="index">
       {{ item }}
-    </div>
+      </div>
     </div>
   </div>
 </template>
@@ -56,14 +73,17 @@ export default {
     return {
       result: 0,
       resultFib: 0,
-      operand1: 0,
-      operand2: 0,
+      operand1: '',
+      operand2: '',
       textValue: '',
       textValue2: '',
       error: '',
       myCollection: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       operands: ['+', '-', '*', '/'],
-      logs: {}
+      logs: {},
+      checked: false,
+      nums: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      picked: ''
     }
   },
   computed: {
@@ -132,6 +152,21 @@ export default {
     },
     fib (n) {
       return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2)
+    },
+    inputNum (num) {
+      if (this.operand1 === '' && num === '0') {
+        return
+      }
+      if (this.picked === this.operand1) {
+        console.log('no')
+        this.operand1 += num
+      } else if (this.picked === this.operand2) {
+        console.log('no2')
+        this.operand2 += num
+      }
+    },
+    clear () {
+      if (!isNaN(this.operand1[this.operand1.length - 1])) this.operand1 = this.operand1.substring(0, this.operand1.length - 1)
     }
   }
 }
