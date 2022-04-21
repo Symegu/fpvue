@@ -42,9 +42,9 @@
       </button>
       <button @click="clear()"> -- </button>
       <br>
-      <input type="radio" id="operand1" name="radio" value="operand1" v-model="picked">
+      <input type="radio" id="operand1" name="radio" :value="operand1" v-model="picked">
       <label for="operand1">Первое число</label>
-      <input type="radio" id="operand2" name="radio" value="operand2" v-model="picked">
+      <input type="radio" id="operand2" name="radio" :value="operand2" v-model="picked">
       <label for="operand2">Второе число</label>
     </div>
     <hr>
@@ -82,7 +82,6 @@ export default {
       operands: ['+', '-', '*', '/'],
       logs: {},
       checked: false,
-      nums: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       picked: ''
     }
   },
@@ -155,9 +154,10 @@ export default {
     },
     inputNum (num) {
       if (this.operand1 === '' && num === '0') {
-        return
-      }
-      if (this.picked === this.operand1) {
+        return this.error
+      } else if (this.operand2 === '' && num === '0') {
+        return this.error
+      } else if (this.picked === this.operand1) {
         console.log('no')
         this.operand1 += num
       } else if (this.picked === this.operand2) {
@@ -167,6 +167,7 @@ export default {
     },
     clear () {
       if (!isNaN(this.operand1[this.operand1.length - 1])) this.operand1 = this.operand1.substring(0, this.operand1.length - 1)
+      if (!isNaN(this.operand2[this.operand1.length - 1])) this.operand2 = this.operand2.substring(0, this.operand2.length - 1)
     }
   }
 }
