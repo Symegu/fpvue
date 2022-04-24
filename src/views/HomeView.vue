@@ -4,10 +4,9 @@
     <br/>
     {{ arr }}
     <br>
-    <myButton />
-    <myButton />
-    <myButton />
     <MyName msg="Hello" :text="text" :arr="arr"/>
+    <button @click="show=!show">Show/hide</button>
+    <myButton v-if="show"/>
   </div>
 </template>
 
@@ -25,6 +24,7 @@ export default {
   data () {
     return {
       text: 'some text',
+      show: true,
       arr: ['1', '2', '3', '4', '5']
     }
   }
