@@ -1,10 +1,11 @@
 <template>
   <div class="form-wrapper">
-      <input v-model="date" placeholder="date" />
-      <input v-model="category" placeholder="category" />
-      <input v-model="value" placeholder="value" />
+      <button @click="show=!show">Add new cost +</button>
+      <input v-if="show" v-model="date" placeholder="date" />
+      <input v-if="show" v-model="category" placeholder="category" />
+      <input v-if="show" v-model="value" placeholder="value" />
       <br>
-      <button @click="onClickSave">Save</button>
+      <button v-if="show" @click="onClickSave">Save</button>
   </div>
 </template>
 
@@ -15,7 +16,8 @@ export default {
     return {
       date: '',
       category: '',
-      value: ''
+      value: '',
+      show: true
     }
   },
   computed: {
