@@ -1,35 +1,65 @@
 <template>
   <div class="home">
-    {{ text }}
-    <br/>
-    {{ arr }}
-    <br>
-    <myButton />
-    <myButton />
-    <myButton />
-    <MyName msg="Hello" :text="text" :arr="arr"/>
+    <header>
+      <div :class="[$style.title]">My personal costs</div>
+    </header>
+    <main>
+      <PaymentsDisplay :items="paymentsList"/>
+      <AddPaymentForm @addNewPayment="addPaymentData"/>
+    </main>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import myButton from '@/components/myButton.vue'
-
+import PaymentsDisplay from '@/components/PaymentsDisplay.vue'
+import AddPaymentForm from '@/components/AddPaymentForm.vue'
 export default {
-  name: 'HomeView',
   components: {
-    MyName: HelloWorld,
-    myButton
+    PaymentsDisplay,
+    AddPaymentForm
   },
   data () {
     return {
-      text: 'some text',
-      arr: ['1', '2', '3', '4', '5']
+      paymentsList: []
+    }
+  },
+  methods: {
+    fetchData () {
+      return [
+        {
+          date: '20.20.20',
+          category: 'Food',
+          value: 123
+        },
+        {
+          date: '21.21.21',
+          category: 'Transport',
+          value: 456
+        },
+        {
+          date: '22.22.22',
+          category: 'Food',
+          value: 789
+        }
+      ]
+    },
+    addPaymentData (data) {
+      this.paymentsList.push(data)
+    }
+  },
+  created () {
+    this.paymentsList = this.fetchData()
+  },
+  computed: {
+    classes () {
+      return 'someClass'
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" module>
+.title {
+  font-size: 40px;
+}
 </style>
