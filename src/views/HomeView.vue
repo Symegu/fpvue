@@ -8,7 +8,7 @@
       <PaymentsDisplay :items="currentElements"/>
       <AddPaymentForm @addNewPayment="addPaymentData"/>
       <br>
-      <MyPagination :cur="cur" :length="getPaymentsList.length" :n="n" @changePage="changePage"/>
+      <MyPagination :cur="cur" :length="12" :n="n" @changePage="changePage"/>
     </main>
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       cur: 1,
-      n: 5
+      n: 3
     }
   },
   methods: {
@@ -59,10 +59,11 @@ export default {
     ]),
     changePage (p) {
       this.cur = p
+      this.$store.dispatch('fetchData', p)
     }
   },
   async created () {
-    await this.$store.dispatch('fetchData')
+    await this.$store.dispatch('fetchData', this.cur)
     // this.paymentsList = this.fetchData()
     // this.setPaymentsListData(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())
