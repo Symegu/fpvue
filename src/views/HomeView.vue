@@ -2,10 +2,13 @@
   <div class="home">
     <header>
       <div :class="[$style.title]">My personal costs</div>
+      <div>Total Price = {{ getFullPaymentValue }}</div>
     </header>
     <main>
-      <PaymentsDisplay :items="paymentsList"/>
+      <PaymentsDisplay :items="currentElements"/>
       <AddPaymentForm @addNewPayment="addPaymentData"/>
+      <br>
+      <MyPagination :cur="cur" :length="12" :n="n" @changePage="changePage"/>
     </main>
   </div>
 </template>
@@ -13,14 +16,19 @@
 <script>
 import PaymentsDisplay from '@/components/PaymentsDisplay.vue'
 import AddPaymentForm from '@/components/AddPaymentForm.vue'
+import { mapGetters, mapMutations } from 'vuex'
+import MyPagination from '@/components/MyPagination.vue'
+
 export default {
   components: {
     PaymentsDisplay,
-    AddPaymentForm
+    AddPaymentForm,
+    MyPagination
   },
   data () {
     return {
-      paymentsList: []
+      cur: 1,
+      n: 3
     }
   },
   methods: {
@@ -45,15 +53,33 @@ export default {
     },
     addPaymentData (data) {
       this.paymentsList.push(data)
+    },
+    ...mapMutations([
+      'setPaymentsListData'
+    ]),
+    changePage (p) {
+      this.cur = p
+      this.$store.dispatch('fetchData', p)
     }
   },
-  created () {
-    this.paymentsList = this.fetchData()
+  async created () {
+    await this.$store.dispatch('fetchData', this.cur)
+    // this.paymentsList = this.fetchData()
+    // this.setPaymentsListData(this.fetchData())
+    // this.$store.commit('setPaymentsListData', this.fetchData())
+    console.log(this.$store.state)
   },
   computed: {
     classes () {
       return 'someClass'
-    }
+    },
+    currentElements () {
+      return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
+    },
+    getFPV () {
+      return this.$store.getters.getFullPaymentValue
+    },
+    ...mapGetters(['getFullPaymentValue', 'getPaymentsList'])
   }
 }
 </script>
