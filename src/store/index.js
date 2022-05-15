@@ -11,9 +11,9 @@ const mutations = {
   addDataToPaymentsList (state, payload) {
     state.paymentList.push(payload)
   },
-  editPaymentsListFirstElement (state, payload) {
-    Vue.set(state.paymentList, 0, payload)
-  },
+  //  editPaymentsListFirstElement (state, payload) {
+  //    Vue.set(state.paymentList, 0, payload)
+  //  },
   setCategories (state, payload) {
     state.categoryList = payload
   }

@@ -20,6 +20,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import MyPagination from '@/components/MyPagination.vue'
 
 export default {
+  name: 'HomeView',
   components: {
     PaymentsDisplay,
     AddPaymentForm,
@@ -66,18 +67,17 @@ export default {
     // this.paymentsList = this.fetchData()
     // this.setPaymentsListData(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())
-    console.log(this.$store.state)
   },
   computed: {
-    classes () {
-      return 'someClass'
-    },
+    // classes () {
+    // return 'someClass'
+    // },
     currentElements () {
       return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
     },
-    getFPV () {
-      return this.$store.getters.getFullPaymentValue
-    },
+    // getFPV () {
+    // return this.$store.getters.getFullPaymentValue
+    // },
     ...mapGetters(['getFullPaymentValue', 'getPaymentsList'])
   }
 }
