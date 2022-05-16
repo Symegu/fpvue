@@ -48,8 +48,10 @@ export default {
     }
   },
   async created () {
+    // if (this.getPaymentsList) {
+    //   await this.$store.dispatch('fetchData')
+    // }
     await this.$store.dispatch('fetchData')
-    // this.paymentsList = this.fetchData()
     // this.setPaymentsListData(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())
   },

@@ -11,9 +11,9 @@ const mutations = {
   addDataToPaymentsList (state, payload) {
     state.paymentList.push(payload)
   },
-  //  editPaymentsListFirstElement (state, payload) {
-  //    Vue.set(state.paymentList, 0, payload)
-  //  },
+  // editPaymentsList (state, payload) {
+  //   state.paymentList.push(payload)
+  // },
   setCategories (state, payload) {
     state.categoryList = payload
   }
@@ -46,7 +46,7 @@ export default new Vuex.Store({
               id: Math.floor(Math.random() * Math.floor(Math.random() * Date.now()) + i)
             })
           } resolve(items)
-        }, 3000)
+        }, 2000)
       }).then(res => {
         commit('setPaymentsListData', res)
       })
