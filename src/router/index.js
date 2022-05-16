@@ -1,27 +1,73 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Router from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AboutView from '../views/AboutView.vue'
+import NotFound from '../views/NotFound.vue'
+import AddPaymentForm from '../components/AddPaymentForm.vue'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '/home',
+    name: 'Home',
+    component: HomeView
+  },
+  {
+    path: '/home/:page',
+    name: 'Home',
     component: HomeView
   },
   {
     path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'About',
+    component: AboutView
+  },
+  {
+    path: '/notfound',
+    name: 'NotFound',
+    component: NotFound
+  },
+  {
+    path: '/add/:section/:category/',
+    name: 'AddPaymentForm',
+    component: AddPaymentForm
+  },
+  {
+    path: '*',
+    redirect: { name: 'NotFound' }
   }
 ]
 
-const router = new VueRouter({
+const router = new Router({
+  mode: 'history',
   routes
+})
+
+const userAuthExists = true
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'NotFound' && !userAuthExists) {
+    next({ name: 'NotFound' })
+  } else {
+    next()
+  }
+})
+
+router.beforeResolve((to, from, next) => {
+  next()
+})
+
+const getTitleByRouteName = (routeName) => {
+  return {
+    // 'Home': 'Take a look on your payments and add more!',
+    // 'About': 'Anything about our awesome application!',
+    // 'NotFound': 'Oops! Seems like we lost this page :('
+  }[routeName]
+}
+
+router.afterEach((to) => {
+  document.title = getTitleByRouteName(to.name)
 })
 
 export default router

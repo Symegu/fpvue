@@ -51,8 +51,19 @@ export default {
     await this.$store.dispatch('fetchCategoryList')
   },
   mounted () {
-    if (this.categoryList.length) {
-      this.category = this.categoryList[0]
+    // if (this.categoryList.length) {
+    // this.category = this.categoryList[0]
+    // }
+    const { category, section } = this.$route.params
+    if (!category || !section) {
+      return
+    }
+    this.category = category
+    const { value } = this.$route.query
+    if (!value) return
+    this.value = value
+    if (this.value && this.category) {
+      setTimeout(this.onClickSave(), 3000)
     }
   }
 }

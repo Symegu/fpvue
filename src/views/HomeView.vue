@@ -29,28 +29,13 @@ export default {
   data () {
     return {
       cur: 1,
-      n: 5
+      n: 10
     }
   },
   methods: {
-    fetchData () {
-      return [
-        {
-          date: '20.20.20',
-          category: 'Food',
-          value: 123
-        },
-        {
-          date: '21.21.21',
-          category: 'Transport',
-          value: 456
-        },
-        {
-          date: '22.22.22',
-          category: 'Food',
-          value: 789
-        }
-      ]
+    fetchData (category, value) {
+      this.category = category
+      this.value = value
     },
     addPaymentData (data) {
       this.paymentsList.push(data)
@@ -67,6 +52,10 @@ export default {
     // this.paymentsList = this.fetchData()
     // this.setPaymentsListData(this.fetchData())
     // this.$store.commit('setPaymentsListData', this.fetchData())
+  },
+  mounted () {
+    if (!this.$route.params?.page || isNaN(this.$route.params.page)) return
+    this.cur = Number(this.$route.params.page)
   },
   computed: {
     // classes () {

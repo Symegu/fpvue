@@ -41,12 +41,12 @@ export default new Vuex.Store({
           for (let i = 1; i <= 50; i++) {
             items.push({
               date: '12.34.56',
-              category: 'sp',
+              category: 'cat',
               value: i,
               id: Math.floor(Math.random() * Math.floor(Math.random() * Date.now()) + i)
             })
           } resolve(items)
-        }, 2000)
+        }, 3000)
       }).then(res => {
         commit('setPaymentsListData', res)
       })
