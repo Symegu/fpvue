@@ -6,11 +6,18 @@
     <router-link :to="{name: 'AddPaymentForm', params: {section: 'Payment', category: 'Transport'}, query: { value:50}}">Transport 50</router-link>
     <br>
     <router-link :to="{name: 'AddPaymentForm', params: {section: 'Payment', category: 'Entertainment'}, query: { value:2000}}">Entertainment 2000</router-link>
+
+    <button @click="openModalAuthForm">Show</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NotFound'
+  name: 'NotFound',
+  methods: {
+    openModalAuthForm () {
+      this.$modal.show('auth', { title: 'AuthForm', component: 'auth' })
+    }
+  }
 }
 </script>
