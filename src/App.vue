@@ -9,19 +9,17 @@
     </header>
     <main>
       <router-view/>
-      <ModalWindowAddPaymentForm :settings="settings" v-if="modalShow"/>
+      <transition name="fade">
+        <ModalWindowAddPaymentForm :settings="settings" v-if="modalShow"/>
+      </transition>
     </main>
   </div>
 </template>
 
 <script>
-import ModalWindowAddPaymentForm from './components/ModalWindowAddPaymentForm.vue'
-// import HomeView from './views/HomeView.vue'
-// import AboutView from './views/AboutView.vue'
-// import NotFound from './views/NotFound.vue'
 
 export default {
-  components: { ModalWindowAddPaymentForm },
+  components: { ModalWindowAddPaymentForm: () => import('./components/ModalWindowAddPaymentForm.vue') },
   name: 'App',
   // components: { HomeView, AboutView, NotFound },
   data () {
@@ -87,5 +85,11 @@ nav {
       color: #42b983;
     }
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -20,7 +20,7 @@ export default {
       date: '',
       category: '',
       value: '',
-      show: true
+      show: false
     }
   },
   computed: {

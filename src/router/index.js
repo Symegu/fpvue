@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
-import NotFound from '../views/NotFound.vue'
 import AddPaymentForm from '../components/AddPaymentForm.vue'
 
 Vue.use(Router)
@@ -11,17 +8,17 @@ const routes = [
   {
     path: '/home/:page',
     name: 'Home',
-    component: HomeView
+    component: () => import('../views/HomeView.vue')
   },
   {
     path: '/about',
     name: 'About',
-    component: AboutView
+    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/notfound',
     name: 'NotFound',
-    component: NotFound
+    component: () => import('../views/NotFound.vue')
   },
   {
     path: '/add/:section/:category/',
