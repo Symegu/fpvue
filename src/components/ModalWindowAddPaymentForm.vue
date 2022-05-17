@@ -2,8 +2,7 @@
   <div class="wrapper">
     <div class="header">{{ settings.title }}</div>
     <div class="content">
-        <AddPaymentForm v-if="settings.component === 'addform'"/>
-        <AuthForm v-if="settings.component === 'auth'"/>
+        <component :is="settings.component" />
     </div>
     <div class="footer">
         <button @click="onCloseClick">Close</button>

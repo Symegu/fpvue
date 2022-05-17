@@ -45,7 +45,7 @@ export default {
       this.cur = p
     },
     openModalForm () {
-      this.$modal.show('addform', { title: 'Add New Payment', component: 'addform' })
+      this.$modal.show('addform', { title: 'Add New Payment', component: 'AddPaymentForm' })
     }
   },
   async created () {
