@@ -1,20 +1,22 @@
 <template>
   <div class="form-wrapper">
-      <button @click="show=!show">Add new cost +</button>
-      <br>
-      <select v-if="categoryList" v-model="category">
-        <option v-for="(value, idx) in categoryList" :key="idx"> {{ value }}</option>
-      </select>
-      <input v-if="show" v-model="date" placeholder="date" />
-      <input v-if="show" v-model.number="value" placeholder="value" />
-      <br>
-      <button v-if="show" @click="onClickSave">Save</button>
+    <button @click="show=!show">Add new cost +</button>
+    <br>
+    <input v-model="date"  placeholder="date"/>
+    <select v-model="category" v-if="categoryList">
+    <option v-for="(value, idx) in categoryList" :key="idx">{{value}}</option>
+    </select>
+    <input v-model.number="value" placeholder="value"/>
+    <button @click="onClickSave">Save</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'AddPaymentForm',
+  props: {
+    values: Object
+  },
   data () {
     return {
       date: '',
@@ -51,9 +53,13 @@ export default {
     await this.$store.dispatch('fetchCategoryList')
   },
   mounted () {
-    // if (this.categoryList.length) {
-    // this.category = this.categoryList[0]
-    // }
+    if (this.values?.item) {
+      const { category, date, value } = this.values.item
+      this.value = value
+      this.date = date
+      this.category = category
+      return
+    }
     const { category, section } = this.$route.params
     if (!category || !section) {
       return
@@ -63,8 +69,9 @@ export default {
     if (!value) return
     this.value = value
     if (this.value && this.category) {
-      setTimeout(this.onClickSave(), 3000)
+      this.onClickSave()
     }
   }
 }
+
 </script>

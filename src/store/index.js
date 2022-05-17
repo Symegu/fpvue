@@ -11,9 +11,6 @@ const mutations = {
   addDataToPaymentsList (state, payload) {
     state.paymentList.push(payload)
   },
-  // editPaymentsList (state, payload) {
-  //   state.paymentList.push(payload)
-  // },
   setCategories (state, payload) {
     state.categoryList = payload
   }

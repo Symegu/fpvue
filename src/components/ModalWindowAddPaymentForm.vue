@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="header">{{ settings.title }}</div>
     <div class="content">
-        <component :is="settings.component" />
+        <component :is="settings.component" :values="settings.props"/>
     </div>
     <div class="footer">
         <button @click="onCloseClick">Close</button>
