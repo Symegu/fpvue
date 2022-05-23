@@ -1,6 +1,6 @@
 <template>
   <div class="context" v-if="shown" :style="styles">
-    <div class="context__item" v-for="item in items" :key="item.text" @click="onClick(item)">
+    <div v-for=" item in items" :key="item.text" class="context__item" @click="onClick(item)">
       {{ item.text }}
     </div>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       shown: false,
       items: [],
@@ -17,48 +17,47 @@ export default {
     }
   },
   computed: {
-    styles () {
+    styles(){
       return {
-        top: `${this.yPos + 30}px`,
-        left: `${this.xPos + 20}px`
+         top: `${this.yPos + 30}px`,
+         left: `${this.xPos + 20}px`
       }
     }
   },
   methods: {
-    onClick (item) {
+    onClick(item) {
       item.action()
     },
-    onShow ({ items, caller }) {
+    onShow({items, caller}){
       this.items = items
       this.shown = true
-      console.log(caller)
-      this.setPosition(caller)
+      this.setPostion(caller)
     },
-    onHide () {
+    onHide(){
       this.shown = false
       this.items = []
     },
-    setPosition (caller) {
-      const pos = caller.getBoundingClientRect()
+    setPostion(caller){
+      const pos= caller.getBoundingClientRect()
       this.xPos = pos.left
       this.yPos = pos.top
     }
   },
-  mounted () {
+  mounted() {
     this.$contextMenu.EventBus.$on('show', this.onShow)
     this.$contextMenu.EventBus.$on('hide', this.onHide)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$contextMenu.EventBus.$off('show', this.onShow)
     this.$contextMenu.EventBus.$off('hide', this.onHide)
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .context {
   position: absolute;
-  background: #efefef;
+  background: #eee;
   cursor: pointer;
 }
 </style>

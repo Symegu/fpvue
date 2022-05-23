@@ -1,82 +1,67 @@
 <template>
   <div class="home">
     <header>
-      <div :class="[$style.title]">My personal costs</div>
-      <div>Total Price = {{ getFullPaymentValue }}</div>
+      <div class="title">My personal costs</div>
+      <div>Total Price = {{getFullPaymentValue}} </div>
     </header>
     <main>
-      <PaymentsDisplay :items="currentElements"/>
       <button @click="openModalForm">Show</button>
-      <br>
+      <PaymentsDisplay :items="currentElements"/>
       <MyPagination :cur="cur" :length="getPaymentsList.length" :n="n" @changePage="changePage"/>
     </main>
   </div>
 </template>
 
 <script>
-import PaymentsDisplay from '@/components/PaymentsDisplay.vue'
-import { mapGetters, mapMutations } from 'vuex'
-import MyPagination from '@/components/MyPagination.vue'
+import PaymentsDisplay from "@/components/PaymentsDisplay.vue";
+import { mapMutations, mapGetters } from "vuex";
+import MyPagination from "@/components/MyPagination.vue";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: {
     PaymentsDisplay,
-    MyPagination
-  },
-  data () {
+    MyPagination,
+},
+  data() {
     return {
       cur: 1,
-      n: 10
+      n: 10,
+    };
+  },
+  computed: {
+    ...mapGetters(['getFullPaymentValue', 'getPaymentsList']),
+    currentElements(){
+      return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur -1) + this.n)
     }
   },
   methods: {
-    fetchData (category, value) {
-      this.category = category
-      this.value = value
-    },
-    addPaymentData (data) {
+    ...mapMutations({
+      MyMutation: 'setPaymentsListData'
+    }),
+    addPaymentData(data) {
       this.paymentsList.push(data)
     },
-    ...mapMutations([
-      'setPaymentsListData'
-    ]),
-    changePage (p) {
+    changePage(p){
       this.cur = p
     },
-    openModalForm () {
-      this.$modal.show('addform', { title: 'Add New Payment', component: 'AddPaymentForm' })
+    openModalForm(){
+      this.$modal.show('addform', {title: "Add New Payment", component: 'AddPaymentForm'})
     }
   },
-  async created () {
-    // if (this.getPaymentsList) {
-    //   await this.$store.dispatch('fetchData')
-    // }
-    await this.$store.dispatch('fetchData')
-    // this.setPaymentsListData(this.fetchData())
+ created() {
+    this.$store.dispatch('fetchData')
     // this.$store.commit('setPaymentsListData', this.fetchData())
   },
-  mounted () {
-    if (!this.$route.params?.page || isNaN(this.$route.params.page)) return
+  mounted() {
+    if(!this.$route.params?.page || isNaN(this.$route.params.page)) return
     this.cur = Number(this.$route.params.page)
-  },
-  computed: {
-    // classes () {
-    // return 'someClass'
-    // },
-    currentElements () {
-      return this.getPaymentsList.slice(this.n * (this.cur - 1), this.n * (this.cur - 1) + this.n)
-    },
-    // getFPV () {
-    // return this.$store.getters.getFullPaymentValue
-    // },
-    ...mapGetters(['getFullPaymentValue', 'getPaymentsList'])
   }
-}
+};
 </script>
 
-<style lang="scss" module>
+<style lang="scss" scoped>
 .title {
-  font-size: 40px;
+  font-size: 20px;
 }
 </style>

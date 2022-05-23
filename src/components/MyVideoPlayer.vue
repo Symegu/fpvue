@@ -8,25 +8,26 @@
 </template>
 <script>
 export default {
-  name: 'MyVideoPlayer',
-  data () {
+  name: "MyVideoPlayer",
+  data() {
     return {
-      controls: false
+      controls: false,
     }
   },
   methods: {
-    showControls () {
+    showControls(){
       this.showControls = !this.showControls
     },
-    onPlay () {
+    onPlay(){
       this.$refs.player?.play()
     },
-    onStop () {
+    onStop(){
       this.$refs.player?.pause()
-    }
+    },
   },
-  mounted () {
+  mounted() {
     console.dir(this.$refs.player)
-  }
+  },
+
 }
 </script>

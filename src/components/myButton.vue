@@ -1,56 +1,55 @@
 <template>
   <div>
-    <button @click="onClick">clicked {{ counter }} times!</button>
+    <button @click="onClick">Clicked {{ counter }} times!</button>
   </div>
 </template>
 <script>
 export default {
-  name: 'myButton',
-  data () {
+  name: "MyButton",
+  data() {
     return {
       counter: 0
     }
   },
   methods: {
-    onClick () {
-      this.counter++
+    onClick(){
+      this.counter ++
     },
-    onMouseOver () {
+    onMouseOver(){
       console.log('hovered')
     }
   },
-  beforeCreate () {
+  beforeCreate() {
     console.log('beforeCreate')
   },
-  created () {
+  created() {
     console.log('created')
   },
-  beforeMount () {
+  beforeMount() {
     console.log('beforeMount')
-    console.log(this)
   },
-  mounted () {
+  mounted() {
     console.log('mounted')
     const btn = this.$el.querySelector('button')
-    if (btn) {
+    if(btn) {
       btn.addEventListener('mouseover', this.onMouseOver)
     }
   },
-  beforeUpdate () {
+  beforeUpdate() {
     console.log('beforeUpdate')
   },
-  updated () {
+  updated() {
     console.log('updated')
   },
-  beforeDestroy () {
+  beforeDestroy() {
     console.log('beforeDestroy')
     const btn = this.$el.querySelector('button')
-    if (btn) {
+    if(btn) {
       btn.removeEventListener('mouseover', this.onMouseOver)
     }
   },
-  destroyed () {
+  destroyed() {
     console.log('destroyed')
-  }
+  },
 }
 </script>

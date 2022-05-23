@@ -9,6 +9,7 @@ Vue.config.productionTip = false
 Vue.use(modal)
 Vue.use(contextMenu)
 
+
 new Vue({
   store,
   router,

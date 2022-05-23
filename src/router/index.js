@@ -1,65 +1,72 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import AddPaymentForm from '../components/AddPaymentForm.vue'
 
 Vue.use(Router)
 
 const routes = [
   {
-    path: '/home/:page',
-    name: 'Home',
-    component: () => import('../views/HomeView.vue')
+    path: "/dashboard/:page/",
+    name: "Dashboard",
+    component: ()=> import(/* webpackChunkName: "PageDashboard" */ '../views/HomeView.vue') ,
   },
   {
     path: '/about',
-    name: 'About',
-    component: () => import('../views/AboutView.vue')
+    name: "About",
+    component: ()=> import(/* webpackChunkName: "PageAbout" */ '../views/About/AboutView.vue')
+  },
+  {
+    path: '/calc',
+    name: "Calc",
+    component: ()=> import(/* webpackChunkName: "calc" */ '../components/Calc.vue')
   },
   {
     path: '/notfound',
-    name: 'NotFound',
-    component: () => import('../views/NotFound.vue')
+    name: "NotFound",
+    component: ()=> import(/* webpackChunkName: "PageAbout" */ '../views/NotFoundView.vue')
   },
   {
     path: '/add/:section/:category/',
-    name: 'AddPaymentForm',
+    name: "AddPaymentForm",
     component: AddPaymentForm
   },
   {
     path: '*',
-    redirect: { name: 'NotFound' }
-  }
+    redirect: {name: 'NotFound'}
+  },
 ]
 
 const router = new Router({
-  mode: 'history',
+  mode: "history",
   routes
 })
 
-const userAuthExists = true
+const userAuthExists = true 
 
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'NotFound' && !userAuthExists) {
-    next({ name: 'NotFound' })
-  } else {
+router.beforeEach((to, from, next)=>{
+  if(to.name !== 'NotFound' && !userAuthExists) {
+    next({name: 'NotFound'})
+  }else {
     next()
   }
 })
 
-router.beforeResolve((to, from, next) => {
+router.beforeResolve((to, from, next)=>{
+  console.log(to, from)
   next()
 })
 
-const getTitleByRouteName = (routeName) => {
+const getTitleByRouteName = (routeName)=>{
   return {
-    // 'Home': 'Take a look on your payments and add more!',
-    // 'About': 'Anything about our awesome application!',
-    // 'NotFound': 'Oops! Seems like we lost this page :('
-  }[routeName]
+    'Dashboard': 'Take a look on your payments and add more!',
+    'About': 'Anything about our awesome application!',
+    'NotFound': 'Oops! Seems like we lost this page :('
+    }[routeName]
 }
 
-router.afterEach((to) => {
+router.afterEach((to)=>{
   document.title = getTitleByRouteName(to.name)
 })
 
-export default router
+export default router;

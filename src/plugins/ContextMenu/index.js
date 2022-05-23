@@ -1,22 +1,27 @@
 export default {
-  install (Vue) {
-    if (this.installed) {
+  install(Vue) {
+    if(this.installed) {
       return
     }
     this.installed = true
     this.caller = null
+
     Vue.prototype.$contextMenu = {
       EventBus: new Vue(),
-      show ({ event, items }) {
+
+      show({event, items}) {
+      
         const caller = event.target
-        if (caller !== this.caller) {
+        if(caller !== this.caller) {
           this.caller = caller
-          this.EventBus.$emit('show', { items, caller })
-        } else {
+          this.EventBus.$emit('show', {items, caller})
+        }else {
           this.hide()
         }
+       
       },
-      hide () {
+
+      hide() {
         this.caller = null
         this.EventBus.$emit('hide')
       }

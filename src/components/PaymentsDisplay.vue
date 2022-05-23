@@ -1,42 +1,45 @@
 <template>
   <div class="paymentsList">
-    <div class="paymentItem" v-for="(item, index) in items" :key="index">
-        <span>{{ item }}</span><span class="cursor" @click="onContextMenuClick($event,item)">//-//</span>
+    <div class="paymmentItem" v-for="(item, index) in items" :key="index">
+      <span>{{ item }}</span><span class="cursor" @click="onContextMenuClick($event,item)">...</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PaymentsDisplay',
+  name: "PaymentsDisplay",
   props: {
     items: {
       type: Array,
-      default: () => []
+      default: ()=>[]
     }
   },
   methods: {
-    editItem (item) {
-      this.$modal.show('addform', { title: 'Add New Payment', component: 'AddPaymentForm', props: { item } })
-      console.log('edit', item)
+    editItem(item) {
+      this.$modal.show('addform', {title: "Add New Payment", component: 'AddPaymentForm', props: {
+        item
+      }})
+      console.log('edit',item)
     },
-    deleteItem (item) {
-      console.log('delete', item)
-      // mutation delete
-      this.$contextMenu.hide()
+    deleteItem(item){
+       console.log('deleteItem',item)
+       //mutation delete
+       this.$contextMenu.hide()
     },
-    onContextMenuClick (event, item) {
+    onContextMenuClick(event,item){
+    
       const items = [
         {
-          text: 'Edit', action: () => { this.editItem(item) }
+          text: "Edit", action: ()=> { this.editItem(item)}
         },
         {
-          text: 'Delete Item', action: () => { this.deleteItem(item.id) }
+          text: 'Delete item', action: ()=>{ this.deleteItem(item.id)}
         }
       ]
-      this.$contextMenu.show({ event, items })
+      this.$contextMenu.show({event,items})
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

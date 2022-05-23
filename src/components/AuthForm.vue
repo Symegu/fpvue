@@ -1,10 +1,8 @@
 <template>
-  <div>Auth</div>
+  <div>AUTH</div>
 </template>
 <script>
 export default {
   name: 'AuthForm'
 }
 </script>
-<style lang="scss" scoped>
-</style>
