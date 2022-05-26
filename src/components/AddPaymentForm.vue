@@ -1,12 +1,10 @@
 <template>
-  <div class="form-wrapper">
-    <input v-model="date"  placeholder="date"/>
-    <select v-model="category" v-if="categoryList">
-      <option v-for="(value, idx) in categoryList" :key="idx">{{value}}</option>
-    </select>
-    <input v-model.number="value" placeholder="value"/>
-    <button @click="onClickSave">Save</button>
-  </div>
+  <v-card class="pa-8">
+    <v-text-field v-model="date" label="Date" />
+    <v-text-field v-model="value" label="Value"/>
+    <v-select v-model="category" :items="categoryList"/>
+    <v-btn color="teal" dark @click="onClickSave">Save</v-btn>
+  </v-card>
 </template>
 <script>
 export default {

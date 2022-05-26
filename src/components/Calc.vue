@@ -9,18 +9,18 @@
       </button>
     </div>
     <label
-      ><input type="checkbox" v-model="showvk" name="showvk"/>Отобразить экранную
+      ><input type="checkbox" v-model="showvk" />Отобразить экранную
       клавиатуру</label
     >
-    <div v-if="showvk" >
+    <div v-if="showvk">
       Виртуальная клавиатура
-      <button v-for="btn in 10" :key="btn" @click="inputNum(btn - 1)" :name="'btn' + (btn - 1)">
+      <button v-for="btn in 10" :key="btn" @click="inputNum(btn - 1)">
         {{ btn - 1 }}
       </button>
-      <button @click="eraseOne" name="remove">E</button>
+      <button @click="eraseOne">E</button>
       <br /><br />
-      <label><input type="radio" value="1" v-model="operch" name="radio1"/>Операнд 1</label>
-      <label><input type="radio" value="2" v-model="operch" name="radio2"/>Операнд 2</label>
+      <label><input type="radio" value="1" v-model="operch" />Операнд 1</label>
+      <label><input type="radio" value="2" v-model="operch" />Операнд 2</label>
     </div>
   </div>
 </template>
