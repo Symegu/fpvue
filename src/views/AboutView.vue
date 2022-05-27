@@ -1,21 +1,5 @@
 <template>
-  <div class='about'>
-    <h1>This is an about page</h1>
-    {{ status }}
-    <MyVideoPlayer />
+  <div class="about">
+    <h1>Этот раздел находится в разработке</h1>
   </div>
 </template>
-
-<script>
-import MyVideoPlayer from '@/components/MyVideoPlayer.vue'
-export default {
-  name: 'AboutView',
-  component: {},
-  data () {
-    return {
-      status: 'stop'
-    }
-  },
-  components: { MyVideoPlayer }
-}
-</script>

@@ -1,70 +1,90 @@
 <template>
   <v-card class="pa-8">
-    <v-text-field v-model="date" label="Date" />
-    <v-text-field v-model="value" label="Value"/>
-    <v-select v-model="category" :items="categoryList"/>
-    <v-btn color="teal" dark @click="onClickSave">Save</v-btn>
+    <v-card-title class="justify-center">{{ titleText }} расход</v-card-title>
+    <v-text-field v-model="date" label="Дата"/>
+    <v-text-field v-model="value" label="Стоимость"/>
+    <v-select v-model="category" :items="categoryList" label="Категория"/>
+    <v-btn color="teal" dark @click="onClickSave">{{ titleText }}</v-btn>
   </v-card>
 </template>
+
 <script>
+
 export default {
   name: "AddPaymentForm",
-  props: {
-    values: Object
-  },
   data() {
     return {
-      date: "",
-      category: "",
-      value: ""
+      editMode: false,
+      date: '',
+      category: '',
+      value: '',
+      id: ''
     }
   },
-  computed: {
-    getCurrentDate(){
-      const today = new Date()
-      const d = today.getDate()
-      const m = today.getMonth()+1
-      const y = today.getFullYear()
-      return `${d}.${m}.${y}`
-    },
-    categoryList(){
-      return this.$store.getters.getCategoryList
-    }
+  props: {
+    titleText: String,
+    values: Object
   },
   methods: {
-    onClickSave(){
+    onClickSave() {
       const data = {
         date: this.date || this.getCurrentDate,
         category: this.category,
-        value: this.value
+        value: +this.value,
+        id: this.id || Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))
       }
-      this.$store.commit('addDataToPaymentsList', data)
-      // console.log(data);
+      if (this.editMode) {
+        this.$store.commit('editDataToPaymentList', data)
+        this.editMode = false
+      } else {
+        this.$store.commit('addDataToPaymentList', data);
+      }
+      this.date = '';
+      this.category = '';
+      this.value = '';
+      this.$emit('closeMenu', false)
     }
   },
   async created() {
     await this.$store.dispatch('fetchCategoryList')
   },
   mounted() {
-    if(this.values?.item) {
-      
-      const {category, date, value} = this.values.item
+    if (this.values?.item) {
+      const {category, date, value, id} = this.values.item
       this.value = value
       this.date = date
       this.category = category
-      return 
+      this.id = id
+      this.editMode = true
+      return;
     }
     const {category, section} = this.$route.params
-    if(!category || !section) {
-      return 
-    }
+    if (!category || !section) return
     this.category = category
     const {value} = this.$route.query
-    if(!value) return 
+    if (!value) return
     this.value = value
-    if(this.value && this.category) {
-       this.onClickSave()
+    if (this.value && this.category) {
+      this.onClickSave()
     }
   },
+  computed: {
+    getCurrentDate() {
+      const today = new Date()
+      const formatter = new Intl.DateTimeFormat('ru', {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric"
+      })
+      return formatter.format(today);
+    },
+    categoryList() {
+      return this.$store.getters.getCategoryList
+    }
+  }
 }
 </script>
+
+<style scoped lang="scss">
+
+</style>

@@ -1,23 +1,69 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col :cols="4">#</v-col>
-      <v-col :cols="3">Date</v-col>
-      <v-col :cols="3">Category</v-col>
-      <v-col :cols="2">Value</v-col>
+  <div>
+    <v-row class="font-weight-bold">
+      <v-col :cols="1">#</v-col>
+      <v-col :cols="3">Дата</v-col>
+      <v-col :cols="4">Категория</v-col>
+      <v-col :cols="2">Цена</v-col>
     </v-row>
+    <v-divider class="my-4"/>
     <v-row v-for="(item, index) in items" :key="index">
-      <v-col :cols="4" align-self="center" class="text-center">{{ item.id }}</v-col>
+      <v-col :cols="1">{{ index + 1 }}</v-col>
       <v-col :cols="3">{{ item.date }}</v-col>
-      <v-col :cols="3">{{ item.category }}</v-col>
+      <v-col :cols="4">{{ item.category }}</v-col>
       <v-col :cols="2">{{ item.value }}</v-col>
+
+
+      <v-menu
+          :offset-x="true"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+              icon
+              v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-dialog
+              v-model="dialogMenu"
+              width="500"
+          >
+            <template v-slot:activator="{ on }">
+              <v-list-item
+                  v-on="on"
+              >
+                <v-icon>mdi-pencil</v-icon>
+                &nbsp;Редактировать
+              </v-list-item>
+            </template>
+            <v-card>
+              <AddPaymentForm v-if="dialogMenu" titleText="Редактировать" :values="{item}" @closeMenu="closeMenu"/>
+            </v-card>
+          </v-dialog>
+
+          <v-list-item @click="deleteItem(item)"><v-icon>mdi-delete</v-icon>&nbsp;Удалить</v-list-item>
+        </v-list>
+      </v-menu>
+
     </v-row>
-  </v-container>
+    <v-divider class="my-4"/>
+  </div>
 </template>
 
 <script>
+import AddPaymentForm from "@/components/AddPaymentForm";
+
 export default {
   name: "PaymentsDisplay",
+  components: {AddPaymentForm},
+  data() {
+    return {
+      dialogMenu: false
+    }
+  },
   props: {
     items: {
       type: Array,
@@ -25,36 +71,16 @@ export default {
     }
   },
   methods: {
-    editItem(item) {
-      this.$modal.show('addform', {
-        title: "Add New Payment", component: 'AddPaymentForm', props: {
-          item
-        }
-      })
-      console.log('edit', item)
-    },
     deleteItem(item) {
-      console.log('deleteItem', item)
-      //mutation delete
-      this.$contextMenu.hide()
+      this.$store.commit('deleteDataToPaymentList', item)
     },
-    onContextMenuClick(event, item) {
-
-      const items = [
-        {
-          text: "Edit", action: () => { this.editItem(item) }
-        },
-        {
-          text: 'Delete item', action: () => { this.deleteItem(item.id) }
-        }
-      ]
-      this.$contextMenu.show({ event, items })
+    closeMenu(data) {
+      this.dialogMenu = data
     }
-  },
+  }
 }
 </script>
-<style lang="scss" scoped>
-.cursor {
-  cursor: pointer;
-}
+
+<style module lang="scss">
+
 </style>
